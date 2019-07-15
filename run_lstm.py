@@ -17,10 +17,8 @@ from keras.preprocessing.image import img_to_array
 from keras.callbacks import Callback, EarlyStopping
 from sklearn.metrics import classification_report
 
-
 # fix random seed for reproducibility
 np.random.seed(7)
-
 
 
 # Function used to build the training and test set.
@@ -40,7 +38,6 @@ def dataset_build(data_path, classes, set_):
   return X_filenames, Y
 
 
-
 def get_cnn_model():
   
   # Defines the CNN model for extracting frames features #######
@@ -49,12 +46,12 @@ def get_cnn_model():
   x = vgg_model.output
   x = GlobalAveragePooling2D()(x)
   
-
   model = Model(inputs=vgg_model.input, outputs=x)
   model.trainable = False
   model.summary()
   
   return model
+
 
 def extract_features(video_path, model, num_frames=40):
      
@@ -71,8 +68,6 @@ def extract_features(video_path, model, num_frames=40):
       frame = img_to_array(frame)
       
       vgg16_feature.append(frame)
-   
-   
   
   # Preprocessing data and extract features using the CNN model###
   vgg16_feature = np.array(vgg16_feature, dtype="float32") / 255.0
@@ -83,7 +78,6 @@ def extract_features(video_path, model, num_frames=40):
 
 def show_result(acc, loss):
    
-  
   # Shows the train history
   plt.figure(1)
   plt.plot(loss, label='train')
@@ -100,7 +94,6 @@ def show_result(acc, loss):
   plt.show()
 
 
-
 # Create a function for extracting features for all videos training and testing  
 def extract_features_from_set(model,X_filenames,X):
   for filename,idx in zip(X_filenames,range(len(X_filenames))):
@@ -110,10 +103,9 @@ def extract_features_from_set(model,X_filenames,X):
   return X
 
 
-
 if __name__ == "__main__":
     
-    data_path='data/Videos/'
+    data_path='Videos/'
     classes=['Basketball','Diving','GolfSwing','Skiing']
     t_len = 40 # number of frames per video
     feature_len = 512# feature vector length per frame
